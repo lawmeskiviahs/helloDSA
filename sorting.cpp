@@ -9,13 +9,22 @@ void bubbleSort(int arr[], int arrLen);
 // where we put the element to the position it is supposed to be by adjacent swapping
 void insertionSort(int arr[], int arrLen);
 
+// where we divide the array in two until it is cannot be further divided; then sorting them and merging
+void mergeSort(int arr[], int start, int end);
+
+// to merge the divided sub arrays
+void merge(int arr[], int start, int mid, int end);
+
 int main() {
 
-    int arr[]={9,12,14,15,6,8,13,2};
+    int arr[]={69, 69, 5, 5, 2, 1};
     int arrLen = sizeof(arr)/sizeof(int);
     // selectionSort(arr, arrLen);
     // bubbleSort(arr, arrLen);
-    insertionSort(arr, arrLen);
+    // insertionSort(arr, arrLen);
+    mergeSort(arr, 0, arrLen-1);
+    for(int i=0;i<arrLen;i++)
+        std::cout<<arr[i]<<" ";
 
     return 0;
 }
@@ -36,9 +45,6 @@ void selectionSort(int arr[], int arrLen) {
         arr[minIndex] = temp;
     }
     
-    for(int i=0;i<arrLen;i++)
-        std::cout<<arr[i]<<" ";
-
     return;
 }
 
@@ -54,9 +60,6 @@ void bubbleSort(int arr[], int arrLen) {
         }
     }
 
-    for(int i=0;i<arrLen;i++)
-        std::cout<<arr[i]<<" ";
-
     return;
 }
 
@@ -70,9 +73,65 @@ void insertionSort(int arr[], int arrLen) {
                 }
         }
     }
+    return;
+}
 
-    for(int i=0;i<arrLen;i++)
-        std::cout<<arr[i]<<" ";
+void mergeSort(int arr[], int start, int end) {
+    if(start>=end)
+        {
+            return;
+        }
+    int mid = start+(end-start)/2;
+    mergeSort(arr, start, mid);
+    mergeSort(arr, mid+1, end);
+    merge(arr, start, mid, end);
+}
+
+void merge (int arr[], int start, int mid, int end) {
+
+    // temporary array to store the sorted array
+    int sortedArray[end-start+1];
+    int sortedarrLen = sizeof(sortedArray)/sizeof(int);
+
+    // iterator for left subarray
+    int i1 = start;
+
+    // iterator for right subarray
+    int i2 = mid+1;
+
+    // iterator for the sorted array
+    int i =0;
+
+    // select the smaller element of either subarrays to save in sorted array
+    while(i1<=mid&&i2<=end){
+         if( arr[i1]<arr[i2]) {
+            sortedArray[i] = arr[i1];
+            i1++;
+            i++;
+        } else {
+            sortedArray[i] = arr[i2];
+            i2++;
+            i++;
+        }
+    }
+
+    // save any remaining elements from left array
+    while(i1<=mid) {
+        sortedArray[i]=arr[i1];
+        i1++;
+        i++;
+    }
+
+    // save any remaining elements from the irght array
+    while(i2<=end) {
+        sortedArray[i]=arr[i2];
+        i2++;
+        i++;
+    }
+
+    // copy the sorted array into the original array
+    for(int k=0,j=start;k<sortedarrLen;k++,j++)
+        arr[j]=sortedArray[k];
 
     return;
 }
