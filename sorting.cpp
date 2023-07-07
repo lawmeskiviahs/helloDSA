@@ -82,8 +82,14 @@ void mergeSort(int arr[], int start, int end) {
             return;
         }
     int mid = start+(end-start)/2;
+
+    // divide left through recursion
     mergeSort(arr, start, mid);
+
+    // divide right through recursion
     mergeSort(arr, mid+1, end);
+
+    // conquer (merge the divided sub arrays)
     merge(arr, start, mid, end);
 }
 
