@@ -12,8 +12,15 @@ void insertionSort(int arr[], int arrLen);
 // where we divide the array in two until it is cannot be further divided; then sorting them and merging
 void mergeSort(int arr[], int start, int end);
 
-// to merge the divided sub arrays
-void merge(int arr[], int start, int mid, int end);
+// to merge the divided sub arrays (merge sort)
+void mergerMS(int arr[], int start, int mid, int end);
+
+// where we select a pivot and put it in it's correct order
+void quickSort(int arr[], int start, int end);
+
+int swapperQS(int arr[], int start, int end);
+
+void swap(int arr[], int i, int j);
 
 int main() {
 
@@ -23,10 +30,11 @@ int main() {
     // bubbleSort(arr, arrLen);
     // insertionSort(arr, arrLen);
     mergeSort(arr, 0, arrLen-1);
+    // quickSort(arr, 0, arrLen-1);
     for(int i=0;i<arrLen;i++)
         std::cout<<arr[i]<<" ";
 
-    return 0;
+    // return 0;
 }
 
 void selectionSort(int arr[], int arrLen) {
@@ -90,10 +98,10 @@ void mergeSort(int arr[], int start, int end) {
     mergeSort(arr, mid+1, end);
 
     // conquer (merge the divided sub arrays)
-    merge(arr, start, mid, end);
+    mergerMS(arr, start, mid, end);
 }
 
-void merge (int arr[], int start, int mid, int end) {
+void mergerMS (int arr[], int start, int mid, int end) {
 
     // temporary array to store the sorted array
     int sortedArray[end-start+1];
@@ -139,5 +147,35 @@ void merge (int arr[], int start, int mid, int end) {
     for(int k=0,j=start;k<sortedarrLen;k++,j++)
         arr[j]=sortedArray[k];
 
+    return;
+}
+
+void quickSort(int arr[], int start, int end) {
+    if( start > end ) {
+        return;
+    }
+    int pivot = swapperQS(arr, start, end);
+    quickSort(arr, start, pivot);
+    quickSort(arr, pivot+1, end);
+}
+
+int swapperQS(int arr[], int start, int end) {
+    // int pivot = arr[end];
+    // int k = start-1;
+    // for(int i = start; i < end; i++) {
+    //     if( arr[i] < pivot ) {
+    //         ++k;
+    //         // swap(arr, k, i);
+    //     }
+    // }
+    // ++k;
+    // swap(arr, k, end);
+    return 0;
+}
+
+void swap (int arr[], int i, int j) {
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
     return;
 }
