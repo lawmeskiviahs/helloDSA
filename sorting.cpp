@@ -15,21 +15,23 @@ void mergeSort(int arr[], int start, int end);
 // to merge the divided sub arrays (merge sort)
 void mergerMS(int arr[], int start, int mid, int end);
 
-// where we select a pivot and put it in it's correct order
+// where we find the correct index of the pivot element and place all the smaller elements to its left
 void quickSort(int arr[], int start, int end);
 
+// to implement quick sort
 int swapperQS(int arr[], int start, int end);
 
+// to swap the ith and jth indices of array arr
 void swap(int arr[], int i, int j);
 
 int main() {
 
-    int arr[]={69, 69, 5, 5, 2, 1};
+    int arr[]={8, 7, 6, 1, 0, 9, 2};
     int arrLen = sizeof(arr)/sizeof(int);
     // selectionSort(arr, arrLen);
     // bubbleSort(arr, arrLen);
     // insertionSort(arr, arrLen);
-    mergeSort(arr, 0, arrLen-1);
+    // mergeSort(arr, 0, arrLen-1);
     // quickSort(arr, 0, arrLen-1);
     for(int i=0;i<arrLen;i++)
         std::cout<<arr[i]<<" ";
@@ -59,11 +61,9 @@ void selectionSort(int arr[], int arrLen) {
 void bubbleSort(int arr[], int arrLen) {
     
     for (int i = 0; i<arrLen-1; i++) {
-        for ( int j = 0; j<arrLen-i; j++) {
+        for ( int j = 0; j<(arrLen-1)-i; j++) {
             if(arr[j] > arr[j+1]) {
-                int temp = arr[j];
-                arr[j]=arr[j+1];
-                arr[j+1]=temp;
+                swap(arr, j, j+1);
                 }
         }
     }
@@ -75,9 +75,7 @@ void insertionSort(int arr[], int arrLen) {
     for(int i = 0; i<arrLen;i++){
         for(int j = i; j>0; j--) {
             if(arr[j]<arr[j-1]) {
-                int temp = arr[j];
-                arr[j] = arr[j-1];
-                arr[j-1] = temp;
+                swap(arr, j, j-1);
                 }
         }
     }
@@ -151,26 +149,33 @@ void mergerMS (int arr[], int start, int mid, int end) {
 }
 
 void quickSort(int arr[], int start, int end) {
-    if( start > end ) {
+    if( start >= end ) {
         return;
     }
-    int pivot = swapperQS(arr, start, end);
-    quickSort(arr, start, pivot);
-    quickSort(arr, pivot+1, end);
+
+    // quick sort functionality
+    int pivotIndex = swapperQS(arr, start, end);
+    // quick sort the left side of pivot
+    quickSort(arr, start, pivotIndex-1);
+    // to quick sort the right side of the pivot
+    quickSort(arr, pivotIndex+1, end);
+
 }
 
 int swapperQS(int arr[], int start, int end) {
-    // int pivot = arr[end];
-    // int k = start-1;
-    // for(int i = start; i < end; i++) {
-    //     if( arr[i] < pivot ) {
-    //         ++k;
-    //         // swap(arr, k, i);
-    //     }
-    // }
-    // ++k;
-    // swap(arr, k, end);
-    return 0;
+    // select pivot element
+    int pivot = arr[end];
+    // counter for index of pivot
+    int k = start-1;
+    for(int i = start; i < end; i++) {
+        if( arr[i] < pivot ) {
+            // place elements smaller than the pivot element to kth index
+            swap(arr, ++k, i);
+        }
+    }
+    // place the pivot element at it's correct index
+    swap(arr, ++k, end);
+    return k;
 }
 
 void swap (int arr[], int i, int j) {
